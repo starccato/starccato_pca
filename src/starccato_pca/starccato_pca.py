@@ -49,6 +49,9 @@ class StarccatoPCA(StarccatoModel):
         return pca.recover(self._pca, z)
 
     def encode(self, x: jnp.ndarray, rng: PRNGKey = None) -> jnp.ndarray:
+        if len(x.shape) == 1:
+            x = x.reshape(1, -1)
+
         if x.shape[1] != self.input_dim:
             raise ValueError(
                 f"Input data dimensions {x.shape[1]} != model encoder dim ({self.input_dim})"
